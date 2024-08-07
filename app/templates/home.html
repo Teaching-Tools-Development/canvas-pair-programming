@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Test Home Page</h1>
+    <button onclick="redirectToCanvasUsers()">Go to Canvas Users</button>
+    <button onclick="redirectToSnippet()">Go to Snippet</button>
+
+    <script type="text/javascript">
+        function redirectToCanvasUsers() {
+            var url = "{% url 'get_canvas_users' %}";
+            window.location.href = url;
+        }
+
+        function redirectToSnippet() {
+            // Use course_id 1 for demonstration purposes
+            var url = "{% url 'test_student_grades' %}";
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

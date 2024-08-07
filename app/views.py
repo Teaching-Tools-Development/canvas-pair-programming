@@ -8,38 +8,41 @@ from django.conf import settings
 # Create your views here.
 def home(request):
     return render(request, 'base.html')
-def get_test_student_grades(request, course_id):
-    # Configure Canvas API
-    API_URL = 'https://canvas.nau.edu'
-    API_TOKEN = '19664~Tn6ehcVae9mKmYr8nKyCxJtZa2ameWDFJnf8URhCwrznzTEZD9C73hxeY7CxMGHC'  # Replace with your actual Canvas API token
 
+def get_test_student_grades(request):
+    course_id = 25655
+    api_url = f'https://canvas.nau.edu/api/v1/courses/{course_id}/students/submissions'
     headers = {
-        'Authorization': f'Bearer {API_TOKEN}'
+        'Authorization': 'Bearer 19664~4UrrEFtMzTy7fwcvT8EJTu3vfnvAJtF7RcxVWhtvrvn8uNUnHQCeXUFxTmwm6ZJv'
+    }
+    params = {
+        'include[]': ['submission', 'rubric_assessment', 'user', 'assignment']
     }
 
-    # Endpoint to get enrollments
-    endpoint = f'{API_URL}/courses/{course_id}/enrollments'
-    
-    # Parameters to specify the type of enrollment (student) and include grades
-    params = {
-        'type': 'StudentEnrollment',
-        'include[]': 'grades'
-    }
-    
-    # Make the request to the Canvas API
-    response = requests.get(endpoint, headers=headers, params=params)
-    enrollments = response.json()
-    
-    # Filter the enrollments to find the Test Student
-    test_student_data = None
-    for enrollment in enrollments:
-        if enrollment.get('user', {}).get('name') == 'Test Student':
-            test_student_data = enrollment
-            break
-    
-    # Render the data to a template
-    context = {
-        'test_student_data': test_student_data
-    }
-    return render(request, 'test_student_grades.html', context)
-# test
+    response = requests.get(api_url, headers=headers, params=params)
+
+    try:
+        response.raise_for_status()  # Raise an error for bad HTTP responses
+        
+        # Ensure response data is in JSON format
+        response_data = response.json()
+
+        # Parse the response data to extract relevant information
+        grades = []
+        for submission in response_data:
+            student_name = submission['user']['name']
+            assignment_name = submission['assignment']['name']
+            grade = submission['grade']
+            grades.append({
+                'student_name': student_name,
+                'assignment_name': assignment_name,
+                'grade': grade
+            })
+
+        return render(request, 'grades.html', {'grades': grades})
+    except requests.exceptions.HTTPError as http_err:
+        return JsonResponse({'error': f'HTTP error occurred: {http_err}'}, status=response.status_code)
+    except requests.exceptions.RequestException as req_err:
+        return JsonResponse({'error': f'Request error occurred: {req_err}'}, status=500)
+    except ValueError as json_err:
+        return JsonResponse({'error': f'JSON decode error: {json_err}', 'response_content': response.text}, status=500)
