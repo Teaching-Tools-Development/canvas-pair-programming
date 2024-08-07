@@ -59,7 +59,7 @@ def get_test_student_grades(request):
                 'grade': grade
             })
 
-        return render(request, 'grades.html', {'grades': grades})
+        return render(request, 'test_student_grades.html', {'grades': grades})
     except requests.exceptions.HTTPError as http_err:
         return JsonResponse({'error': f'HTTP error occurred: {http_err}'}, status=response.status_code)
     except requests.exceptions.RequestException as req_err:

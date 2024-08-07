@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .user {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user h2 {
+            margin-top: 0;
+        }
+        .user-details {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Canvas Users</h1>
+    {% for user in users %}
+        <div class="user">
+            <h2>{{ user.name }}</h2>
+            <ul class="user-details">
+                <li><strong>ID:</strong> {{ user.id }}</li>
+                <li><strong>Created At:</strong> {{ user.created_at }}</li>
+                <li><strong>Sortable Name:</strong> {{ user.sortable_name }}</li>
+                <li><strong>Short Name:</strong> {{ user.short_name }}</li>
+                <li><strong>SIS User ID:</strong> {{ user.sis_user_id }}</li>
+                <li><strong>Integration ID:</strong> {{ user.integration_id }}</li>
+                <li><strong>Login ID:</strong> {{ user.login_id }}</li>
+                <li><strong>Email:</strong> {{ user.email }}</li>
+                {% if user.pronouns %}
+                    <li><strong>Pronouns:</strong> {{ user.pronouns }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>
