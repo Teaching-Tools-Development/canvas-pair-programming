@@ -1,13 +1,33 @@
-from django.shortcuts import render
+
 import os
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
+import requests
 
 # Create your views here.
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
+
+def get_canvas_users(request):
+    # Get the API token from the environment variable
+    access_token = "19664~Tn6ehcVae9mKmYr8nKyCxJtZa2ameWDFJnf8URhCwrznzTEZD9C73hxeY7CxMGHC"
+
+    canvas_instance = "https://canvas.nau.edu"
+    course_id = "25655"
+
+    url = f"{canvas_instance}/api/v1/courses/{course_id}/users"
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        users = response.json()
+        return render(request, 'users.html', {'users': users})
+    else:
+        return JsonResponse({"error": f"Failed to get users: {response.status_code}"}, status=response.status_code)
 
 def get_test_student_grades(request):
     course_id = 25655
