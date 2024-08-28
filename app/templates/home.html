@@ -9,6 +9,7 @@
     <h1>Test Home Page</h1>
     <button onclick="redirectToCanvasUsers()">Go to Canvas Users</button>
     <button onclick="redirectToSnippet()">Go to Student Grades</button>
+    <button onclick="redirectToAssignment()">Go to Assignment , HTML Snippet</button>
 
     <script type="text/javascript">
         function redirectToCanvasUsers() {
@@ -19,6 +20,12 @@
         function redirectToSnippet() {
             // Use course_id 1 for demonstration purposes
             var url = "{% url 'test_student_grades' %}";
+            window.location.href = url;
+        }
+
+        function redirectToAssignment() {
+            // Use course_id 1 for demonstration purposes
+            var url = "{% url 'assignment' %}";
             window.location.href = url;
         }
     </script>
