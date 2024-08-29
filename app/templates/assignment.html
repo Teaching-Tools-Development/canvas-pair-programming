@@ -354,4 +354,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<body>
+    <h1>Grades Information</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Total Grade (%)</th>  <!-- Updated header to indicate percentage -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.student_name }}</td>
+                    <td>{{ student.total_grade|floatformat:2 }}%</td>  <!-- Format grade to 2 decimal places and add percentage symbol -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
 </html>
