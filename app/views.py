@@ -38,6 +38,8 @@ def assignment(request):
         return render(request, 'error.html', {'message': f'Request error: {e}'})
 
     student_grades = []
+    total_grades_sum = 0
+    total_students_count = 0
 
     # Step 3: Loop through each student and each assignment to get grades
     for enrollment in enrollments:
@@ -77,8 +79,22 @@ def assignment(request):
                 'student_name': student_name,
                 'total_grade': percentage_grade
             })
+            
+            # Add to the total grades sum and increment the student count
+            total_grades_sum += percentage_grade
+            total_students_count += 1
 
-    return render(request, 'assignment.html', {'students': student_grades})
+    # Calculate the average grade
+    average_grade = total_grades_sum / total_students_count if total_students_count > 0 else 0
+
+    # Step 4: Pass the data to the template
+    context = {
+        'students': student_grades,
+        'average_grade': average_grade,
+        'total_students': total_students_count
+    }
+
+    return render(request, 'assignment.html', context)
 
 def get_canvas_users(request):
     # Get the API token from the environment variable

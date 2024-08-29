@@ -109,7 +109,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Students</h5>
-                        <p class="card-text">120</p>
+                        <p class="card-text">{{ total_students }}</p>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Average Grade</h5>
-                        <p class="card-text">85%</p>
+                        <p class="card-text">{{ average_grade }}%</p>
                     </div>
                 </div>
             </div>
@@ -161,36 +161,18 @@
                             <tbody>
                                 <tr class="group-row">
                                     <td>Group 1</td>
-                                    <td colspan="6">Average Grade: 88%</td>
+                                    <td colspan="6">Average Grade: {{average_grade}}</td>
+                                    <tbody>
+                                        {% for student in students %}
+                                            <tr>
+                                                <td>{{ student.student_name }}</td>
+                                                <td>{{ student.total_grade }}</td>
+                                                <td>Section B</td>
+                                                <td><button class="btn btn-primary btn-sm">View</button></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>John</td>
-                                    <td>90%</</td>
-                                    <td>85%</</td>
-                                    <td>88%</</td>
-                                    <td>Section A</td>
-                                    <td><button class="btn btn-primary btn-sm">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>Jane</td>
-                                    <td>86%</</td>
-                                    <td>90%</</td>
-                                    <td>89%</</td>
-                                    <td>Section B</td>
-                                    <td><button class="btn btn-primary btn-sm">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>Bob</td>
-                                    <td>88%</</td>
-                                    <td>80%</</td>
-                                    <td>85%</</td>
-                                    <td>Section A</td>
-                                    <td><button class="btn btn-primary btn-sm">View</button></td>
-                                </tr>
-
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
                                 <tr class="group-row">
                                     <td>Group 2</td>
                                     <td colspan="6">Average Grade: 83%</</td>
