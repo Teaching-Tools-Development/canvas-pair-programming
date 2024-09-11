@@ -73,25 +73,36 @@ def min_max_normalization(data_to_normalize):
     return normalized_data
 
 def main():
-    # Step 1: Get the list of students
+    # Get the list of students
     students = student_data()
 
-    # Step 2: Extract data for normalization
+    # Extract data for normalization
     grades = [student["Grade"] for student in students]
     participation = [student["participation"] for student in students]
     peer_review = [student["Peer_review"] for student in students]
 
-    # Step 3: Normalize each criterion
+    # Normalize each criteria
     normalized_grades = min_max_normalization(grades)
     normalized_participation = min_max_normalization(participation)
     normalized_peer_review = min_max_normalization(peer_review)
 
-    # Step 4: Define the weights for each criterion
+    # Define the weights for each criterion
+    def adjust_weights(grade_weight, participation_weight, peer_review_weight):
+        total = grade_weight + participation_weight + peer_review_weight
+
+        if total > 1:
+        # so total equals 1
+            grade_weight = grade_weight / total
+            participation_weight = participation_weight / total
+            peer_review_weight = peer_review_weight / total
+        
+        return grade_weight, participation_weight, peer_review_weight
+    # inputs
     grade_weight = 0.5
     participation_weight = 0.3
     peer_review_weight = 0.2
 
-    # Step 5: Calculate the final score for each student
+    # Calculate the final score for each student
     final_scores = []
     for values in range(len(students)):
         score = (normalized_grades[values] * grade_weight +
