@@ -46,6 +46,7 @@ def assignment(request):
         # Filter for students only
         if enrollment.get('role') == 'StudentEnrollment':
             student_name = enrollment.get('user', {}).get('name', 'Unknown')
+            user_id = enrollment.get('user', {}).get('id')
             total_grade = 0
             total_possible_points = 0
             
@@ -77,7 +78,8 @@ def assignment(request):
             
             student_grades.append({
                 'student_name': student_name,
-                'total_grade': percentage_grade
+                'total_grade': percentage_grade,
+                'user_id' : user_id
             })
             
             # Add to the total grades sum and increment the student count
@@ -172,3 +174,6 @@ def get_test_student_grades(request):
         })
     
     return render(request, 'student_grades.html', {'students': student_grades})
+
+def gensettings(request):
+    return render(request, 'gensettings.html')
